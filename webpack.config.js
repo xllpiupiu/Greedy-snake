@@ -17,39 +17,66 @@ module.exports = {
     //配置webpack打包时使用的模块
     module: {
         rules: [{
-            //test 指定规则生效文件所有后缀为.ts的文件
-            test: /\.ts$/,
-            //使用ts-loader处理 .ts文件 babel-loader处理兼容性
-            use: [
-                // 'babel-loader',
-                {
-                    loader: "babel-loader",
-                    //设置babel 预定义的坏境在哪些浏览器运行
-                    options: {
-                        presets: [
-                            [
-                                //指定坏境插件
-                                "@babel/preset-env",
-                                //配置信息
-                                {
-                                    //targets指定兼容的浏览器版本 corejs指定corejs版本
-                                    targets: {
-                                        "chrome": "58",
-                                        "ie": "11",
-                                    },
-                                    //
-                                    "corejs": "3",
-                                    "useBuiltIns": "usage"
-                                }
+                //test 指定规则生效文件所有后缀为.ts的文件
+                test: /\.ts$/,
+                //使用ts-loader处理 .ts文件 babel-loader处理兼容性
+                use: [
+                    // 'babel-loader',
+                    {
+                        loader: "babel-loader",
+                        //设置babel 预定义的坏境在哪些浏览器运行
+                        options: {
+                            presets: [
+                                [
+                                    //指定坏境插件
+                                    "@babel/preset-env",
+                                    //配置信息
+                                    {
+                                        //targets指定兼容的浏览器版本 corejs指定corejs版本
+                                        targets: {
+                                            "chrome": "58",
+                                            "ie": "11",
+                                        },
+                                        //
+                                        "corejs": "3",
+                                        "useBuiltIns": "usage"
+                                    }
+                                ]
                             ]
-                        ]
-                    }
-                },
-                'ts-loader',
-            ],
-            //要排除的文件
-            exclude: /node_modules/,
-        }]
+                        }
+                    },
+                    'ts-loader',
+                ],
+                //要排除的文件
+                exclude: /node_modules/,
+            },
+            //设置Less文件的处理
+            {
+                test: /\.less$/,
+                use: [
+                    //按顺序执行的
+                    "style-loader",
+                    "css-loader",
+                    //引入postcss
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    [
+                                        "postcss-preset-env",
+                                        {
+                                            browers: "last 2 versions"
+                                        }
+                                    ]
+                                ]
+                            }
+                        }
+                    },
+                    "less-loader"
+                ]
+            }
+        ]
     },
     //配置Webpack插件
     plugins: [

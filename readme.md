@@ -123,4 +123,77 @@ use: [
             ],
 ```
 > 完了之后把代码上传到gitHub仓库,注意不要上传那行node_modules dist下面的文件。
+- 继续配置 安装一些样式处理插件 `npm i -D less less-loader css-loader style-loader`
+在`webpack.config.js`里面配置：
+```javascript
+rules: [
+          ....
+            //设置Less文件的处理
+            {
+                test: /\.less$/,
+                use: [
+                    //按顺序执行的
+                    "style-loader",
+                    "css-loader",
+                    "less-loader"
+                ]
+            }
+        ]
+```
+- 在src下面新建文件夹style->index.less,并写入测试代码,然后需要在index.ts里面引入文件` import './style/index.less' `
+```javascript
+body {
+  background-color: aqua;
+}
+```
+- 引入less之后,需要引入和babel类似的插件, 兼容浏览器,安装插件`npm i -D postcss postcss-loader postcss-preset-env`,同样的需要
+在`webpack.config.js`文件里面配置
+```javascript
+use: [
+                    //按顺序执行的
+                    "style-loader",
+                    "css-loader",
+                    //引入postcss
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    [
+                                        "postcss-preset-env",
+                                        {
+                                            browers: "last 2 versions"
+                                        }
+                                    ]
+                                ]
+                            }
+                        }
+                    },
+                    "less-loader"
+                ]
+```
+重新编译看是否成功.
+
+### 2. 项目开始
+#### 1. 搭建静态页面
+- 1. 创建游戏主容器 写对应样式,效果图如下：首先当前目录下npm start实现自动更新
+<div>
+    <img src="./images/main_box.jpg">
+</div>
+
+- 2. 设置游戏的舞台
+- 3. 设置游戏积分牌 效果图如下：
+<div>
+  <img src="./images/stage.jpg">
+</div>
+
+- 4. 设置蛇的样式 🐍的效果图
+<div>
+  <img src="./images/snake.jpg">
+</div>
+
+- 5. 设置食物 食物的效果如下，把🐍也改了一下
+<div>
+  <img src="./images/food.jpg">
+</div>
 
