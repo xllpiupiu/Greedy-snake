@@ -197,3 +197,71 @@ use: [
   <img src="./images/food.jpg">
 </div>
 
+#### 2. TS逻辑代码(行为)
+#####  1. 定义食物类
+```javascript
+class Food {
+  //定义一个属性表示食物对应的元素
+  element: HTMLElement;
+  constructor(){
+    // !表示不可能为空  获取页面中的元素并讲其赋值给element
+    this.element = document.getElementById('food')!;
+  }
+  //获取食物坐标x
+  get X(){
+    return this.element.offsetLeft;
+  }
+  //获取食物Y坐标
+  get Y(){
+    return this.element.offsetTop;
+  }
+}
+```
+
+* 2. 食物类还需要一个方法随机改变食物位置 change
+食物坐标有范围: 食物最小位置为0 最大位置为290 🐍一次移动一个10px
+```javascript
+//修改食物位置的方法 随机
+  //食物最小位置为0 最大位置为290 🐍一次移动一个10px
+  change(){
+   let top = Math.round(Math.random()*29)*10;
+   let left = Math.round(Math.random()*29)*10;
+    this.element.style.left = top + 'px';
+    this.element.style.top = left + 'px';
+  }
+```
+##### 2. 记分牌逻辑
+等级由达到多少分来控制，比如达到20分就增加一个等级，但是最高等级有限制；
+```javascript
+class ScorePanel {
+  score = 0;
+  level = 1;
+  scoreEle: HTMLElement;
+  levelEle: HTMLElement;
+  //设置变量限制等级
+  maxLevel: number;
+  //设置达到分数升级
+  upScore: number;
+  constructor(maxLevel: number=10,upScore: number = 10){
+    this.maxLevel = maxLevel;
+    this.upScore = upScore;
+    this.scoreEle = document.getElementById('score')!;
+    this.levelEle = document.getElementById('level')!;
+  }
+  //方法  加分方法
+  addScore(){
+   this.scoreEle.innerHTML = ++this.score + '';
+   //表示每20分升级
+   if(this.score % this.upScore === 0){
+     this.levelUp();
+   }
+  }
+  //提升等级 升级应该由分数达到多少控制
+  levelUp(){
+    if(this.level<this.maxLevel){
+    this.levelEle.innerHTML = ++this.level + '';
+    }
+  }
+}
+```
+最后一个类放在一个ts文件里面
