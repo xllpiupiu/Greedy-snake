@@ -13,10 +13,13 @@ class ScorePanel {
     this.upScore = upScore;
     this.scoreEle = document.getElementById('score')!;
     this.levelEle = document.getElementById('level')!;
+    this.score = 0;
   }
   //方法  加分方法
   addScore(){
-   this.scoreEle.innerHTML = ++this.score + '';
+    // console.log(this.score);
+    
+   this.scoreEle.innerHTML =++this.score+'';
    //表示每20分升级
    if(this.score % this.upScore === 0){
      this.levelUp();
@@ -28,12 +31,6 @@ class ScorePanel {
     this.levelEle.innerHTML = ++this.level + '';
     }
   }
-}
-
-const scorePanel = new ScorePanel();
-// scorePanel.addScore();
-for(let i=0;i<10;i++){
-  scorePanel.addScore();
 }
 
 export default ScorePanel;

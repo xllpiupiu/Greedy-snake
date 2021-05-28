@@ -19,9 +19,24 @@ class Snake {
   }
   //设置蛇头坐标
   set X(value: number){
+    //新值和旧值相同不做修改
+    if(this.X===value){
+      return ;
+    }
+    // X的范围 0-290
+    if(value<0||value>280){
+      //蛇撞墙了
+      throw new Error('蛇撞墙了！！！')
+    }
     this.head.style.left = value + 'px';
   }
   set Y(value: number){
+    if(this.Y===value){
+      return ;
+    }
+    if(value<0||value>280){
+      throw new Error('蛇撞墙了！！！')
+    }
     this.head.style.top = value + 'px';
   }
   //蛇吃到食物变长

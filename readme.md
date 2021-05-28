@@ -412,3 +412,40 @@ snakeRun(){
     setTimeout(this.snakeRun.bind(this),300-(this.scorePanel.level-1)*30);
   }
 ```
+蛇需要判断是否出界 这里把这个判断放到蛇类里面去
+```javascript
+set Y(value: number){
+    if(this.Y===value){
+      return ;
+    }
+    if(value<0||value>290){
+      throw new Error('蛇撞墙了！！！')
+    }
+    this.head.style.top = value + 'px';
+  }
+set X(value: number){
+  ...
+}
+// 在控制游戏类GameControl.ts里面设置,因为在Snake类里面如果超过X Y范围就抛出了一个错误,所以这里使用try catch捕获
+try{
+      this.snake.X = X;
+      this.snake.Y = Y;
+    }catch(e){
+      alert(e.message);
+      //isLive设置为false
+      this.isLive = false;
+    }
+```
+5. 检测蛇是否吃到食物
+```javascript
+//定义一个方法，检查蛇是否吃到食物
+  checkEat(X:number,Y:number){
+   if(X===this.food.X&&Y===this.food.Y){
+      //食物位置更新
+    this.food.change();
+    //分数也增加
+    this.scorePanel.addScore();
+    this.snake.addBody();
+   }
+  }
+```

@@ -62,10 +62,28 @@ class GameControl{
         break;
       default:break;
     }
+    //检查蛇是否吃到食物
+    this.checkEat(X,Y);
     //修改蛇位置X  Y
-    this.snake.X = X;
-    this.snake.Y = Y;
+    try{
+      this.snake.X = X;
+      this.snake.Y = Y;
+    }catch(e){
+      alert(e.message);
+      //isLive设置为false
+      this.isLive = false;
+    }
     this.isLive&&setTimeout(this.snakeRun.bind(this),300-(this.scorePanel.level-1)*30);
+  }
+  //定义一个方法，检查蛇是否吃到食物
+  checkEat(X:number,Y:number){
+   if(X===this.food.X&&Y===this.food.Y){
+      //食物位置更新
+    this.food.change();
+    //分数也增加
+    this.scorePanel.addScore();
+    this.snake.addBody();
+   }
   }
 }
 

@@ -18,8 +18,8 @@ class Food {
   //修改食物位置的方法 随机
   //食物最小位置为0 最大位置为290 🐍一次移动一个10px
   change(){
-   let top = Math.round(Math.random()*29)*10;
-   let left = Math.round(Math.random()*29)*10;
+   let top = Math.round(Math.random()*28)*10;
+   let left = Math.round(Math.random()*28)*10;
     this.element.style.left = top + 'px';
     this.element.style.top = left + 'px';
   }
