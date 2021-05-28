@@ -13,11 +13,14 @@ class GameControl{
   direction: string;
   //isLive记录游戏是否结束
   isLive = true;
+  //游戏结束
+  gameOver:HTMLElement;
   constructor(){
     this.snake = new Snake();
     this.food = new Food();
     this.scorePanel = new ScorePanel(10,2);
     this.direction = '';
+    this.gameOver = document.getElementById('gameOver')!;
     this.init();
   }
   //游戏初始化
@@ -69,8 +72,9 @@ class GameControl{
       this.snake.X = X;
       this.snake.Y = Y;
     }catch(e){
-      alert(e.message);
+      // alert(e.message);
       //isLive设置为false
+      this.gameOver.style.display = 'block';
       this.isLive = false;
     }
     this.isLive&&setTimeout(this.snakeRun.bind(this),300-(this.scorePanel.level-1)*30);

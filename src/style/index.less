@@ -22,55 +22,56 @@
   align-items: center;
   //主轴对其方式
   justify-content: space-around;
-  //游戏舞台
+  //1. 游戏舞台
   #stage {
     position: relative;
     width: 300px;
     height: 300px;
     border: 5px solid black;
-  }
-  //设置🐍样式
-  #snake {
-    position: relative;
-    .snake-body {
-      //开启绝对定位 记得给父盒子开启相对定位
-      position:absolute;
+    #food {
+      position: absolute;
+      left: 80px;
+      top: 40px;
       width: 10px;
       height: 10px;
-      background-color:slateblue;
-      border: 1px solid thistle;
-      display:flex;
+      border-radius: 50% 50%;
+      background-color: rebeccapurple;
+      display: flex;
       flex-flow: row wrap;
       justify-content: space-between;
       align-content: space-between;
+      border: 1px solid plum;
       div {
-        width: 3px;
-        height: 3px;
-        background-color:teal
+        width: 4px;
+        height: 4px;
+        border-radius: 50% 50%;
+        background-color: plum;
+      }
+    }
+      //2.设置🐍样式
+    #snake {
+      position: relative;
+      .snake-body {
+        //开启绝对定位 记得给父盒子开启相对定位
+        position:absolute;
+        width: 10px;
+        height: 10px;
+        background-color:slateblue;
+        border: 1px solid thistle;
+        display:flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-content: space-between;
+        div {
+          width: 3px;
+          height: 3px;
+          background-color:teal
+        }
       }
     }
   }
-  #food {
-    position: absolute;
-    left: 80px;
-    top: 40px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50% 50%;
-    background-color: rebeccapurple;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-content: space-between;
-    border: 1px solid plum;
-    div {
-      width: 4px;
-      height: 4px;
-      border-radius: 50% 50%;
-      background-color: plum;
-    }
-  }
-  //记分牌
+
+  //3. 记分牌
   #score-panel{
     width: 300px;
     display: flex;
@@ -82,8 +83,25 @@
     #level {
       color:seagreen;
     }
-  }
+  } 
+  /* 4. gameOver */
+  #gameOver {
+    position: absolute;
+    display: none;
+    z-index: 5;
+    width: 400px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+    border-radius: 40px 40px;
+    background-color:#F5F5DC;
+    opacity: 0.8;
+    font-size: 70px;
+    color:#A52A2A;
+    font-weight: 700;
+    }
 }
+
 body{
   font: bold 20px "Courier";
   height: 400px;

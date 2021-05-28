@@ -499,3 +499,8 @@ try{
     }
   }
 ```
+##### 6. 做一些使用优化
+1. 原先游戏结束是弹出alert,考虑更美观的方式,如下所示
+<div>
+  <img src="./images/gameOver.jpg">
+</div>

@@ -15,6 +15,7 @@
   flex-flow: column;
   align-items: center;
   justify-content: space-around;
+  /* 4. gameOver */
 }
 #main #stage {
   position: relative;
@@ -22,26 +23,7 @@
   height: 300px;
   border: 5px solid black;
 }
-#main #snake {
-  position: relative;
-}
-#main #snake .snake-body {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: slateblue;
-  border: 1px solid thistle;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-  align-content: space-between;
-}
-#main #snake .snake-body div {
-  width: 3px;
-  height: 3px;
-  background-color: teal;
-}
-#main #food {
+#main #stage #food {
   position: absolute;
   left: 80px;
   top: 40px;
@@ -55,11 +37,30 @@
   align-content: space-between;
   border: 1px solid plum;
 }
-#main #food div {
+#main #stage #food div {
   width: 4px;
   height: 4px;
   border-radius: 50% 50%;
   background-color: plum;
+}
+#main #stage #snake {
+  position: relative;
+}
+#main #stage #snake .snake-body {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: slateblue;
+  border: 1px solid thistle;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-content: space-between;
+}
+#main #stage #snake .snake-body div {
+  width: 3px;
+  height: 3px;
+  background-color: teal;
 }
 #main #score-panel {
   width: 300px;
@@ -71,6 +72,21 @@
 }
 #main #score-panel #level {
   color: seagreen;
+}
+#main #gameOver {
+  position: absolute;
+  display: none;
+  z-index: 5;
+  width: 400px;
+  height: 150px;
+  line-height: 150px;
+  text-align: center;
+  border-radius: 40px 40px;
+  background-color: #F5F5DC;
+  opacity: 0.8;
+  font-size: 70px;
+  color: #A52A2A;
+  font-weight: 700;
 }
 body {
   font: bold 20px "Courier";
