@@ -22,7 +22,10 @@
   height: 300px;
   border: 5px solid black;
 }
-#main #snake #snake-body {
+#main #snake {
+  position: relative;
+}
+#main #snake .snake-body {
   position: absolute;
   width: 10px;
   height: 10px;
@@ -33,7 +36,7 @@
   justify-content: space-between;
   align-content: space-between;
 }
-#main #snake #snake-body div {
+#main #snake .snake-body div {
   width: 3px;
   height: 3px;
   background-color: teal;
@@ -71,4 +74,5 @@
 }
 body {
   font: bold 20px "Courier";
+  height: 400px;
 }

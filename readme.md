@@ -231,7 +231,7 @@ class Food {
   }
 ```
 ##### 2. 记分牌逻辑
-等级由达到多少分来控制，比如达到20分就增加一个等级，但是最高等级有限制；
+等级由达到多少分来控制，比如达到20分就增加一个等级，但是最高等级有限制:
 ```javascript
 class ScorePanel {
   score = 0;
@@ -264,4 +264,151 @@ class ScorePanel {
   }
 }
 ```
-最后一个类放在一个ts文件里面
+最后 一个类放在一个ts文件里面
+
+##### 3. 蛇的类
+1. 需要获取蛇头 蛇身  以及蛇的容器，后序增加蛇的身体长度；
+```javascript
+class Snake {
+  //表示蛇头的元素
+  head: HTMLElement;
+  //蛇的身体
+  bodies: HTMLCollection;
+  // 获取蛇的容器 因为后序需要增加蛇的身体
+  element: HTMLElement;
+  constructor(){
+    this.element = document.getElementById('snake')!;
+    this.head = document.querySelector('#snake>div') as HTMLElement;
+    this.bodies = document.getElementById('snake')!.getElementsByClassName('snake-body');
+  }
+}
+```
+2. 获取蛇头坐标，设置蛇头坐标
+```javascript
+//获取蛇头坐标
+  get X(){
+    return this.head.offsetLeft;
+  }
+  get Y(){
+    return this.head.offsetTop;
+  }
+  //设置蛇头坐标
+  set X(value: number){
+    this.head.style.left = value + 'px';
+  }
+  set Y(value: number){
+    this.head.style.left = value + 'px';
+  }
+```
+3. 蛇吃到食物变长
+使用`insertAdjacentHTML`插入蛇身片段 https://developer.mozilla.org/zh-CN/docs/Web/API/Element/insertAdjacentHTML
+```javascript
+//蛇吃到食物变长
+  addBody(){
+    //向element中添加一个div
+    const snakeHTML = `
+    <div class="snake-body">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    </div>
+    `
+    this.element.insertAdjacentHTML("beforeend",snakeHTML);
+  }
+```
+
+##### 4. 控制游戏的类GameControl.ts
+1. 首先是导入蛇 食物 游戏积分类
+```javascript
+//游戏控制器 控制其他的所有类
+import Snake from './Snake';
+import Food from './Food';
+import ScorePanel from './ScorePanel';
+
+//游戏控制器，控制其他的所有类
+class GameControl{
+  //定义三个属性
+  snake:Snake;
+  food: Food;
+  scorePanel: ScorePanel;
+  constructor(){
+    this.snake = new Snake();
+    this.food = new Food();
+    this.scorePanel = new ScorePanel();
+  }
+}
+
+export default GameControl;
+```
+2. 控制游戏的一些方法
+```javascript
+init(){
+    //需要蛇动 跟随鼠标动  绑定键盘按下事件
+    document.addEventListener('keydown',this.keydownHandler);
+  }
+  //创建一个键盘按下的相应函数 KeyboardEvent是类型
+  keydownHandler(event:KeyboardEvent){
+    console.log(event.key);
+  }
+```
+测试结果：
+<div>
+  <img src="./images/keyDown.jpg">
+</div>
+但是在ie里面和上面结果不一样 是 Up Down Left Right
+
+3. 处理按键 需要用一个变量存储按键动作
+```javascript
+class GameControl{
+  ...
+  direction: string;
+  constructor(){
+    ...
+    this.direction = '';
+    ...
+  }
+}
+```
+键盘处理事件里面的this指向问题,this指向document,所以使用`bind`改变this指向
+<div>
+  <img src="./images/this.png">
+</div>
+
+4. 蛇移动处理方法 snakeRun
+```javascript
+snakeRun(){
+    /* 
+    * 使用this.direction改变蛇位置 
+    * 向上 top 减少
+    * 向下 top 增加
+    * 向左 left 减少
+    * 向右 left 增加
+    */
+  //  获取蛇原来的坐标
+  let X = this.snake.X;
+  let Y = this.snake.Y;
+  // console.log(this.direction);
+  //这里考虑兼容ie 所以有8种情况
+    switch(this.direction){
+      case "ArrowUp":
+      case "Up":Y-=10;
+        break;
+      case "ArrowDown":
+      case "Down":Y+=10;
+        break;
+      case "ArrowLeft":X-=10;
+      case "Left":
+        break;
+      case "ArrowRight":X+=10;
+      case "Right":
+        break;
+      default:break;
+    }
+    //修改蛇位置X  Y
+    this.snake.X = X;
+    this.snake.Y = Y;
+    //开启定时器让蛇能自己移动
+    setTimeout(this.snakeRun.bind(this),300-(this.scorePanel.level-1)*30);
+  }
+```
