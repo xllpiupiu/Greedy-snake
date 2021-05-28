@@ -449,3 +449,53 @@ try{
    }
   }
 ```
+##### 5. 🐍身体移动
+蛇的身体要从后往前移动 
+
+比如：
+- 第四节的位置 = 第三节的位置
+- 第三节的位置 = 第二节位置 
+- 都往前走一步
+移动身体代码
+```javascript
+// 添加蛇身体移动方法
+  moveBody(){
+    //遍历所有身体
+    for(let i=this.bodies.length-1;i>0;i--){
+      // 获取前一位身体的位置
+      let X = (this.bodies[i-1] as HTMLElement).offsetLeft;
+      let Y = (this.bodies[i-1] as HTMLElement).offsetTop;
+      //将值设置到当前的节点身上
+      (this.bodies[i] as HTMLElement).style.left = X + 'px';
+      (this.bodies[i] as HTMLElement).style.top = Y + 'px';
+    }
+  }
+```
+然后在 set X  set Y方法里面调用这个方法,但是呢这个蛇现在很高级hhhhh，可以掉头还可以穿过自己身体，所以需要解决这个问题。
+```javascript
+//修改X 的时候是修改水平坐标 向左移动就不能向右掉头
+    if(this.bodies[1]&&(this.bodies[1] as HTMLElement).offsetLeft === value){
+      // console.log('水平方向掉头了');
+      // 如果发生掉头 让蛇向反方向继续移动 
+      if(value>this.X){
+        //新的值大于value 证明蛇想向右走 所以我们不让她掉头继续想左
+        value = this.X -10;
+      }else {
+        value = this.X + 10;
+      }
+    }
+```
+再解决🐍能穿过自己身体的问题
+```javascript
+//检查头是否撞上身体
+  checkHeadBody(){
+    // 获取所有身体
+    for(let i=1;i<this.bodies.length;i++){
+      let bd = (this.bodies[i] as HTMLElement);
+      if(this.X === bd.offsetLeft&&this.Y === bd.offsetTop){
+        //进入判断 说明蛇头撞到了身体
+        throw new Error('蛇自杀了！！！救命啊')
+      }
+    }
+  }
+```
